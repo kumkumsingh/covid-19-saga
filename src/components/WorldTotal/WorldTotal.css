@@ -1,0 +1,22 @@
+.Confirmed{
+    color: blue;
+}
+.Deaths{
+    color: red;
+}
+.Recovered{
+    color: green;
+}
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    margin-top: 10px;
+
+}
+
+.deaths{
+    border-bottom: 10px solid rgba(255, 0, 0,0.5);
+}
