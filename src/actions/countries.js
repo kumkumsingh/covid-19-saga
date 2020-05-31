@@ -5,7 +5,7 @@ export const countriesFetch = () => ({
 })
 
 export const countries = data => {
-    console.log("response data from country", data)
+    console.log("Action response data from country", data)
     return{
         type: actionTypes.COUNTRIES,
         data

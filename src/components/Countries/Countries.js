@@ -1,77 +1,140 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import Avatar from '@material-ui/core/Avatar';
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow"
-import './Countries.css'
+import {
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  Divider,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  Avatar,
+  TablePagination,
+  TableRow,
+} from "@material-ui/core";
+import cx from "classnames";
+import { Link } from "react-router-dom";
+import "./Countries.css";
 
+export default function Countries(props) {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [width, setWidth] = useState(window.innerWidth);
+  const [searchText, setSearchText ] = useState("");
+ 
+  const updateSearchText = (e) => {
+    setSearchText(e.target.value)
+    props.onChange(e.target.value)
+  }
+  const columns = [
+    { id: "Country", label: "Country" },
+    { id: "Date", label: "LatestDate" },
+    { id: "NewConfirmed", label: "NewConfirmed" },
+    { id: "NewDeaths", label: "NewDeaths" },
+    { id: "NewRecovered", label: "NewRecovered" },
+    { id: "TotalConfirmed", label: "TotalConfirmed" },
+    { id: "TotalDeaths", label: "TotalDeaths" },
+    { id: "TotalRecovered", label: "TotalRecovered" },
+    { id: "CountryCode", label: "ShowGraph" },
+  ];
 
-const useStyles = makeStyles((theme) => ({
-
+  const classes = makeStyles((theme) =>({
+    root: {
+      width: "100%",
+    },
+    tableWrapper: {
+      maxHeight: 440,
+      overflow: "auto",
+    },
+  
   }));
-export default class Countries extends Component {
-    state = {
-        page: 0,
-        rowsPerPage: 10
-      };
-    
-      columns = [
-        { id: 'Country', label: 'Country' },
-        { id: 'Date', label: 'LatestDate' },
-        { id: 'NewConfirmed', label: 'NewConfirmed' },
-        { id: 'NewDeaths', label: 'NewDeaths'},
-        { id: 'NewRecovered', label: 'NewRecovered'},
-        { id: 'TotalConfirmed', label: 'TotalConfirmed'},
-        { id: 'TotalDeaths', label: 'TotalDeaths'},
-        { id: 'TotalRecovered', label: 'TotalRecovered'},
-        { id: "CountryCode", label: "ShowGraph"},
-      ];
-  
-    
-      classes = makeStyles({
-        root: {
-          width: "100%"
-        },
-        tableWrapper: {
-          maxHeight: 440,
-          overflow: "auto"
-        },
-        tableHeaderColor:{
-          backgroundColor:"aqua"
-        }
-      });
-    
-      handleChangePage = (event, newPage) => {
-        this.setState({
-          page: newPage
-        });
-      };
-    
-      handleChangeRowsPerPage = event => {
-        this.setState({
-          rowsPerPage: +event.target.value,
-          page: 0
-        });
-      };
-    render() {
-  
-      console.log("this.props.countries", this.props.countries)
-    return(
-        <div>
-        <div className="m-x-y">Covid-19 World Record</div>
-        <Paper className={this.classes.root}>
-          <div className={this.classes.tableWrapper}>
+
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value));
+    setPage(0);
+  };
+  console.log("checking page number", page, rowsPerPage);
+  const isMobile = width <= 500;
+  if (isMobile) {
+    return (
+      <div className="countries-container">
+        <Grid container spacing={2} justify="center" alignItems="center" direction="row">
+          {!props.countries
+            ? null
+            : props.countries.map(
+                (country, index) => {
+                  console.log('checking in grid',country[1])
+                return  <Grid item xs={8} key={index}>
+                <Card>
+                    <CardContent>
+                      <Typography color="textSecondary" gutterBottom>
+                        Country Name
+                      </Typography>
+                      <Typography variant="h5">{country[1].Country}</Typography>
+                      <Typography color="textSecondary" gutterBottom>
+                       Infected
+                      </Typography>
+                      <Typography variant="h5">{country[1].TotalConfirmed}</Typography>
+                      <Typography color="textSecondary" gutterBottom>
+                       Date
+                      </Typography>
+                      <Typography color="textSecondary">
+                        {country[1].Date}
+                      </Typography>
+                      <Typography color="textSecondary" gutterBottom>
+                       Total Recovered
+                      </Typography>
+                      <Typography variant="h5">{country[1].TotalRecovered}</Typography>
+                      <Typography color="textSecondary" gutterBottom>
+                       Total Deaths
+                      </Typography>
+                      <Typography variant="h5">{country[1].TotalDeaths}</Typography>
+                    </CardContent>
+                    </Card>
+                  </Grid>;
+                }
+              )}
+        </Grid>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <div className="m-x-y">
+          Search Country Result
+          <input
+            className="m-x-y input-search"
+            type="text"
+            placeholder="Enter country name"
+            name="searchCountry"
+            onChange={updateSearchText}
+            value={searchText}
+          ></input>
+        </div>
+        <Paper className={classes.root}>
+          <div className={classes.tableWrapper}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-                <TableRow  className={this.classes.tableHeaderColor}>
-                  {this.columns.map(column => (
+                <TableRow className={classes.tableHeaderColor}>
+                  {columns.map((column, ind) => (
                     <TableCell
-                      key={column.id}
+                      key={ind}
                       // style={{ minWidth: column.minWidth }}
                     >
                       {column.label}
@@ -80,15 +143,14 @@ export default class Countries extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {!this.props.countries.Countries
+                {!props.countries
                   ? null
-                  : Object.entries(this.props.countries.Countries)
+                  : Object.entries(props.countries)
                       .slice(
-                        this.state.page * this.state.rowsPerPage,
-                        this.state.page * this.state.rowsPerPage +
-                          this.state.rowsPerPage
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
                       )
-                      .map(row => {
+                      .map((row) => {
                         return (
                           <TableRow
                             hover
@@ -96,26 +158,28 @@ export default class Countries extends Component {
                             tabIndex={-1}
                             key={row.id}
                           >
-                            {this.columns.map(column => {                                                           
-                              const value = row[1][column.id];                                                           
-                              {if (column.id === 'CountryCode') {
+                            {columns.map((column, ind) => {
+                              const value = row[1][column.id];
+                              {
+                                if (column.id === "CountryCode") {
                                   return (
-                                  <TableCell>
-                                      <Avatar 
-                                            alt="flag" 
-                                            src={`https://www.countryflags.io/${value}/flat/64.png`} 
-                                            variant="square"
-                                      /> 
-                                  </TableCell>)
-                              } else {
-                                    return (
-                                    <TableCell key={column.id}>
-                                        {value}
+                                    <TableCell key={ind}>
+                                      <Link to={`/showgraph/${value}`}>
+                                        <Avatar
+                                          alt="flag"
+                                          src={`https://www.countryflags.io/${value}/flat/64.png`}
+                                          variant="square"
+                                        />
+                                      </Link>
                                     </TableCell>
-                                    )
-                              }}
+                                  );
+                                } else {
+                                  return (
+                                    <TableCell key={ind}>{value}</TableCell>
+                                  );
+                                }
+                              }
                             })}
-        
                           </TableRow>
                         );
                       })}
@@ -123,25 +187,25 @@ export default class Countries extends Component {
             </Table>
           </div>
 
-          {this.props.countries.Countries && 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 100]}
-            component="div"
-            count={parseInt(this.props.countries.Countries.length)}
-            rowsPerPage={this.state.rowsPerPage}
-            page={this.state.page}
-            backIconButtonProps={{
-              "aria-label": "previous page"
-            }}
-            nextIconButtonProps={{
-              "aria-label": "next page"
-            }}
-            onChangePage={this.handleChangePage}
-            onChangeRowsPerPage={this.handleChangeRowsPerPage}
-          ></TablePagination>
-          }
+          {props.countries && (
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, 100]}
+              component="div"
+              count={parseInt(props.countries.length)}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              backIconButtonProps={{
+                "aria-label": "previous page",
+              }}
+              nextIconButtonProps={{
+                "aria-label": "next page",
+              }}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            ></TablePagination>
+          )}
         </Paper>
       </div>
-    )
+    );
   }
 }

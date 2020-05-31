@@ -7,8 +7,6 @@ import {
   Card,
   CardContent,
   Typography,
-  Grid,
-  Divider,
 } from "@material-ui/core";
 
 
@@ -19,12 +17,12 @@ const useStyles = makeStyles({
   infected:{
     borderBottom: '10px solid rgba(0, 0, 255,0.5)'
   },
-  // recovered:{
-  //   borderBottom: '10px solid green'
-  // },
-  // deaths:{
-  //   borderBottom: '10px solid rgba(255, 0, 0,0.5)'
-  // }
+  recovered:{
+    borderBottom: '10px solid green'
+  },
+  deaths:{
+    borderBottom: '10px solid rgba(255, 0, 0,0.5)'
+  }
 
 });
 export default function WorldTotal(props) {
@@ -50,7 +48,7 @@ export default function WorldTotal(props) {
           </Typography>
           </CardContent>
           </Card>
-          <Card className={classes.root }>
+          <Card className={cx(classes.root , classes.recovered) }>
           <CardContent>
           <Typography className="Deaths" gutterBottom>
             TotalDeaths
@@ -65,7 +63,7 @@ export default function WorldTotal(props) {
           </Typography>
           </CardContent>
           </Card>
-          <Card className={classes.root }>
+          <Card className={cx(classes.root , classes.deaths) }>
           <CardContent>
           <Typography className="Recovered" gutterBottom>
             TotalRecovered

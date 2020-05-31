@@ -1,35 +1,50 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/index";
-import Countries from './Countries'
+import Countries from "./Countries";
 
+const CountriesContainer = (props) => {
+  const [country, setCountry ] = useState([])
+  const [foundCountry, setFoundCountry ] = useState([])
 
-class CountriesContainer extends Component {
+  useEffect(() => {    
+     props.countriesFetch()
+    }, [])
 
-    componentDidMount(){
-        this.props.countriesFetch()
+    useEffect(()=> {
+      setCountry(props.countries.Countries)
+      setFoundCountry(props.countries.Countries) 
+    }, [props.countries.Countries])
+
+  const onChange = (searchText) => {
+    if (searchText !== "") {
+      let countryArray = country.filter((res) =>
+          res.Country.toUpperCase().includes(searchText.toUpperCase())
+      )
+      setFoundCountry(countryArray)
     }
-
-    render() {
-        return (
-            <div>
-               <Countries countries={this.props.countries}/> 
-            </div>
-        )
-    }
+  }
+  return (
+    <div>
+      <Countries
+        countries={foundCountry}
+        onChange={onChange}
+      />  
+    </div>
+  )
 }
 
-const mapStateToProps = state => {
-    console.log('checking state in countries', state)
-    return{
-       countries: state.countries
-    }
-}
+const mapStateToProps = (state) => {
+  console.log("checking state in countries", state);
+  return {
+    countries: state.countries,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
-    return{
-        countriesFetch: () => dispatch(actions.countriesFetch())
-    }
-}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    countriesFetch: () => dispatch(actions.countriesFetch()),
+  };
+};
 
-export default connect(mapStateToProps,mapDispatchToProps)(CountriesContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CountriesContainer);
