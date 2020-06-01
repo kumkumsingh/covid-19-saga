@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import showGraphModal from '../../showGraphModal'
+import  ShowGraph from '../ShowGraph/ShowGraph'
 import {
   Card,
   CardContent,
@@ -20,6 +22,7 @@ import { Link } from "react-router-dom";
 import "./Countries.css";
 
 export default function Countries(props) {
+  const { isShowing , toggle } = showGraphModal();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [width, setWidth] = useState(window.innerWidth);
@@ -69,7 +72,6 @@ export default function Countries(props) {
     setRowsPerPage(parseInt(event.target.value));
     setPage(0);
   };
-  console.log("checking page number", page, rowsPerPage);
   const isMobile = width <= 500;
   if (isMobile) {
     return (
@@ -79,32 +81,32 @@ export default function Countries(props) {
             ? null
             : props.countries.map(
                 (country, index) => {
-                  console.log('checking in grid',country[1])
+                  console.log('country',country)
                 return  <Grid item xs={8} key={index}>
                 <Card>
                     <CardContent>
                       <Typography color="textSecondary" gutterBottom>
                         Country Name
                       </Typography>
-                      <Typography variant="h5">{country[1].Country}</Typography>
+                      <Typography variant="h5">{country.Country}</Typography>
                       <Typography color="textSecondary" gutterBottom>
                        Infected
                       </Typography>
-                      <Typography variant="h5">{country[1].TotalConfirmed}</Typography>
+                      <Typography variant="h5">{country.TotalConfirmed}</Typography>
                       <Typography color="textSecondary" gutterBottom>
                        Date
                       </Typography>
                       <Typography color="textSecondary">
-                        {country[1].Date}
+                        {country.Date}
                       </Typography>
                       <Typography color="textSecondary" gutterBottom>
                        Total Recovered
                       </Typography>
-                      <Typography variant="h5">{country[1].TotalRecovered}</Typography>
+                      <Typography variant="h5">{country.TotalRecovered}</Typography>
                       <Typography color="textSecondary" gutterBottom>
                        Total Deaths
                       </Typography>
-                      <Typography variant="h5">{country[1].TotalDeaths}</Typography>
+                      <Typography variant="h5">{country.TotalDeaths}</Typography>
                     </CardContent>
                     </Card>
                   </Grid>;
@@ -164,13 +166,18 @@ export default function Countries(props) {
                                 if (column.id === "CountryCode") {
                                   return (
                                     <TableCell key={ind}>
-                                      <Link to={`/showgraph/${value}`}>
+                                      {/* <Link to={`/showgraph/${value}`}> */}
                                         <Avatar
                                           alt="flag"
                                           src={`https://www.countryflags.io/${value}/flat/64.png`}
                                           variant="square"
+                                          onClick ={toggle}
                                         />
-                                      </Link>
+                                        <ShowGraph value={value}
+                                            isShowing = { isShowing }
+                                            hide = { toggle }
+                                          />
+                                      {/* </Link> */}
                                     </TableCell>
                                   );
                                 } else {

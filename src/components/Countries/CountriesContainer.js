@@ -12,6 +12,7 @@ const CountriesContainer = (props) => {
     }, [])
 
     useEffect(()=> {
+      console.log('props.countries.Countries',props.countries.Countries)
       setCountry(props.countries.Countries)
       setFoundCountry(props.countries.Countries) 
     }, [props.countries.Countries])

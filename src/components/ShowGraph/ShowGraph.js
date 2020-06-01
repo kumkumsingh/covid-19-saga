@@ -1,11 +1,14 @@
 
 import React, { useState, useEffect } from "react";
+import ReactDOM from 'react-dom';
 import { baseUrl } from '../../../constants'
+import './ShowGraph.css';
 
 import axios from 'axios';
 import { Line } from "react-chartjs-2";
-export default function ShowGraph(props) {
-    const id = props.match.params.id
+const ShowGraph = ({value ,isShowing , hide}) =>{
+  console.log('checking value',value)
+    const id = value
     const [dailyData , setDailyData] = useState([]);
 
     useEffect(() => {
@@ -15,14 +18,8 @@ export default function ShowGraph(props) {
                 setDailyData(res.data );
               })
         };
-       
-        fetchApi();
-
-       
+        fetchApi();   
       },[]);
-
-      console.log('checking dailydata', dailyData)
-
       const lineChart = ( dailyData ? (
         <Line
           data={{
@@ -45,9 +42,20 @@ export default function ShowGraph(props) {
           }}
         />
       ) : null );
-    return (
+      return(
         <div>
-        {lineChart}
+          {isShowing ? ReactDOM.createPortal(<React.Fragment>
+              <div className="show-graph-popup-wrapper">
+                <div className="show-graph-popup-container">
+                <button onClick={hide} className="top-corner">
+                  Close
+                </button>
+                {lineChart}
+                </div>
+              </div>
+            </React.Fragment>, document.body
+            ) : null}
         </div>
-    )
+      )
 }
+export default ShowGraph;
