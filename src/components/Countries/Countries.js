@@ -17,8 +17,6 @@ import {
   TablePagination,
   TableRow,
 } from "@material-ui/core";
-import cx from "classnames";
-import { Link } from "react-router-dom";
 import "./Countries.css";
 
 export default function Countries(props) {

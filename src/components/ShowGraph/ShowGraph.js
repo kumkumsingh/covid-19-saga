@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from 'react-dom';
 import { baseUrl } from '../../../constants'
 import './ShowGraph.css';
+let moment = require('moment');
 
 import axios from 'axios';
 import { Line } from "react-chartjs-2";
@@ -23,7 +24,7 @@ const ShowGraph = ({value ,isShowing , hide}) =>{
       const lineChart = ( dailyData ? (
         <Line
           data={{
-            labels: dailyData.map(({ Date }) => Date),
+            labels: dailyData.map(({ Date }) => moment(Date).format("MM-DD-YYYY")),
             datasets: [
               {
                 data: dailyData.map(({ Confirmed }) => Confirmed),
