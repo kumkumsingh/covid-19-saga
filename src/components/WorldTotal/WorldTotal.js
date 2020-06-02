@@ -77,10 +77,6 @@ export default function WorldTotal(props) {
             />
           </Typography>
           </CardContent>
-
-          {/* <div style={confirmed}>TotalConfirmed: {TotalConfirmed}</div>
-          <div style={deaths}>TotalDeaths: {TotalDeaths}</div>
-          <div style={recovered}>TotalRecovered: {TotalRecovered}</div>  */}
           </Card>
         </div>
       )}
