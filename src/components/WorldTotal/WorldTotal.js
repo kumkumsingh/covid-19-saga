@@ -48,7 +48,7 @@ export default function WorldTotal(props) {
           </Typography>
           </CardContent>
           </Card>
-          <Card className={cx(classes.root , classes.recovered) }>
+          <Card className={cx(classes.root , classes.deaths) }>
           <CardContent>
           <Typography className="Deaths" gutterBottom>
             TotalDeaths
@@ -63,7 +63,7 @@ export default function WorldTotal(props) {
           </Typography>
           </CardContent>
           </Card>
-          <Card className={cx(classes.root , classes.deaths) }>
+          <Card className={cx(classes.root , classes.recovered) }>
           <CardContent>
           <Typography className="Recovered" gutterBottom>
             TotalRecovered

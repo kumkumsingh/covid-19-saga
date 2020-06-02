@@ -14,26 +14,16 @@
     border-color: blue;
     border-radius: 30px;
 }
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.countries-container{
-    /* display: flex;
-    max-width: 200px;
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-top: 10px;  */
+.card-container{
     display: grid;
-    grid-gap: 0px;
-    grid-template-rows: repeat(2, 1fr);
-    padding-inline-start: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
 }
 .grid-item {
-    width: 100%;
+    display: grid;
+    width:250px;
+    grid-template-columns: repeat(2, 1fr);
     height: 20rem;
     text-align: center;
     margin: 0px;
@@ -42,4 +32,6 @@
     margin-top: 10px;
 
   }
+
+
 
