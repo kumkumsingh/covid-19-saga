@@ -6,7 +6,7 @@
     color:blue;
 }
 /* input[type=search]{ */
-    .input-search{
+.input-search{
     overflow: hidden;
     opacity: 0.7;
     padding: 5px 10px;
@@ -14,24 +14,6 @@
     border-color: blue;
     border-radius: 30px;
 }
-.card-container{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: center;
-    align-items: center;
-}
-.grid-item {
-    display: grid;
-    width:250px;
-    grid-template-columns: repeat(2, 1fr);
-    height: 20rem;
-    text-align: center;
-    margin: 0px;
-    margin-bottom: 0.5rem;
-    border: 1px solid #222;
-    margin-top: 10px;
-
-  }
 
 
 

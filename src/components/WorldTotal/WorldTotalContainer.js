@@ -19,7 +19,6 @@ class WorldTotalContainer extends Component {
   }
 }
 const mapStateToProps = state => {
-    console.log('checking state', state)
     return{
        worldTotal: state.worldTotal
     }

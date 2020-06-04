@@ -12,7 +12,6 @@ const CountriesContainer = (props) => {
     }, [])
 
     useEffect(()=> {
-      console.log('props.countries.Countries',props.countries.Countries)
       setCountry(props.countries.Countries)
       setFoundCountry(props.countries.Countries) 
     }, [props.countries.Countries])
@@ -36,7 +35,6 @@ const CountriesContainer = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log("checking state in countries", state);
   return {
     countries: state.countries,
   };
