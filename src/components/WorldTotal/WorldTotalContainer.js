@@ -1,33 +1,23 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch , useSelector } from "react-redux";
 import * as actions from "../../actions/index";
 import WorldTotal from "./WorldTotal";
 
  
-class WorldTotalContainer extends Component {
+const WorldTotalContainer = () =>{
 
-  componentDidMount() {
-    this.props.worldTotalFetch();
-   
-  }
-  render() {
+  const dispatch = useDispatch();
+  const worldTotal = useSelector(state => state.worldTotal)
+  useEffect(() => {    
+     dispatch(actions.worldTotalFetch())
+    }, [])
     return (
       <React.Fragment>
-        <WorldTotal total={this.props.worldTotal}/> 
+        <WorldTotal total={worldTotal}/> 
       </React.Fragment>
     );
-  }
-}
-const mapStateToProps = state => {
-    return{
-       worldTotal: state.worldTotal
-    }
+
 }
 
-const mapDispatchToProps = dispatch => {
-    return{
-        worldTotalFetch: () => dispatch(actions.worldTotalFetch())
-    }
-}
 
-export default connect(mapStateToProps,mapDispatchToProps)(WorldTotalContainer);
+export default WorldTotalContainer;

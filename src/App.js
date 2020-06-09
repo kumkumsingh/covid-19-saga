@@ -1,5 +1,5 @@
-import React, { Component, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { Component } from "react";
+import { Route } from "react-router-dom";
 import { HomePage } from "./components/index";
 
 export default class App extends Component {
