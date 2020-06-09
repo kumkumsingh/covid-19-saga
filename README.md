@@ -4,7 +4,7 @@ A React - Redux application
 
 # Deployed version 
 
-https://refund-app.netlify.com/refundoverview
+covid-19-tracker-saga.netlify.app
 
 # Table of Contents
 1. [Functionality](#Functionality)

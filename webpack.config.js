@@ -11,7 +11,9 @@ module.exports = {
         path: path.resolve(__dirname, "dist"),
         filename: "bundle.js"
     },
-
+    devServer: {
+      contentBase: "./build",
+    },
     module: {
         rules: [
             {test: /\.(js|jsx)$/, use: "babel-loader"},
@@ -29,7 +31,8 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
-          template: "./src/index.html"
+          template: path.resolve('./src/index.html')
+          // template: "./src/index.html"
         }),
         new MiniCssExtractPlugin({
             filename: "bundle.css"

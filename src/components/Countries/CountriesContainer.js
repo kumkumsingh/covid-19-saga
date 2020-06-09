@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch , useSelector } from "react-redux";
 import * as actions from "../../actions/index";
 import Countries from "./Countries";
 
-const CountriesContainer = (props) => {
+const CountriesContainer = () => {
   const [country, setCountry ] = useState([])
   const [foundCountry, setFoundCountry ] = useState([])
-
+  const dispatch = useDispatch();
+  const CountriesResult = useSelector(state => state.countries)
   useEffect(() => {    
-     props.countriesFetch()
+     dispatch(actions.countriesFetch())
     }, [])
 
     useEffect(()=> {
-      setCountry(props.countries.Countries)
-      setFoundCountry(props.countries.Countries) 
-    }, [props.countries.Countries])
+      setCountry(CountriesResult.Countries)
+      setFoundCountry(CountriesResult.Countries) 
+    }, [CountriesResult])
 
   const onChange = (searchText) => {
     if (searchText !== "") {
@@ -33,17 +34,4 @@ const CountriesContainer = (props) => {
     </div>
   )
 }
-
-const mapStateToProps = (state) => {
-  return {
-    countries: state.countries,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    countriesFetch: () => dispatch(actions.countriesFetch()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CountriesContainer);
+export default CountriesContainer;
